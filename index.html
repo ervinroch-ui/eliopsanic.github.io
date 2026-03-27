@@ -8,12 +8,12 @@
 
 @font-face {
   font-family: winter;
-  src: url("WinterSunday.ttf");
+  src: url("./WinterSunday.ttf");
 }
 
 body{
   margin:0;
-  font-family: winter;
+  font-family:winter;
   color:white;
   background:linear-gradient(120deg,#001f3f,#000,#0b3d91,#002244);
   background-size:400% 400%;
@@ -33,7 +33,10 @@ header{
   box-shadow:0 0 15px blue;
 }
 
-.logo{width:120px}
+.logo{
+  width:120px;
+  height:auto;
+}
 
 section{
   display:none;
@@ -66,15 +69,11 @@ button{
   border-radius:6px;
 }
 
-/* BOTONES GRANDES */
-
 .btnGrande{
   font-size:26px;
   padding:18px;
   width:250px;
 }
-
-/* CUADROS */
 
 .card{
   background:#111;
@@ -93,8 +92,6 @@ button{
   object-fit:cover;
   border:2px solid white;
 }
-
-/* FORMULARIO */
 
 #formPedido{
   display:none;
@@ -115,12 +112,11 @@ button{
 <body>
 
 <header>
-  <img src="logo_v2.png" class="logo" alt="Logo ELIOPSA">
+  <img src="./logo.png" class="logo" alt="Logo ELIOPSA">
   <h1>ELIOPSA</h1>
   <p>Ingeniería civil • Construcción • Asesorías • Materiales</p>
 </header>
 
-<!-- REGISTRO -->
 <section id="registro" class="activo">
   <h2>Entrar</h2>
   <input id="nombre" placeholder="Nombre">
@@ -130,7 +126,6 @@ button{
   <p id="msg"></p>
 </section>
 
-<!-- INICIO -->
 <section id="inicio">
   <br>
   <button class="btnGrande" onclick="mostrar('productos')">PRODUCTOS</button>
@@ -142,48 +137,53 @@ button{
   <p>Ubicación: Managua<br>Teléfono: 8888-8888<br>Correo: eliopsa@gmail.com</p>
 </section>
 
-<!-- PRODUCTOS -->
 <section id="productos">
   <h2>Productos</h2>
   <button onclick="mostrar('inicio')">Inicio</button>
   <br><br>
+
   <div class="card">
-    <img src="cemento.jpg" alt="Cemento">
+    <img src="./cemento.jpg">
     <h3>Cemento</h3>
     <button onclick="pedido('Cemento')">Pedir</button>
   </div>
+
   <div class="card">
-    <img src="varilla.jpg" alt="Varilla">
+    <img src="./varilla.jpg">
     <h3>Varilla</h3>
     <button onclick="pedido('Varilla')">Pedir</button>
   </div>
+
   <div class="card">
-    <img src="bloques.jpg" alt="Bloques">
+    <img src="./bloques.jpg">
     <h3>Bloques</h3>
     <button onclick="pedido('Bloques')">Pedir</button>
   </div>
+
 </section>
 
-<!-- ASESORIAS -->
 <section id="asesorias">
   <h2>Asesorías</h2>
   <button onclick="mostrar('inicio')">Inicio</button>
   <br><br>
+
   <div class="card">
-    <img src="planos.jpg" alt="Planos">
+    <img src="./planos.jpg">
     <h3>Planos</h3>
     <button onclick="pedido('Planos')">Solicitar</button>
   </div>
+
   <div class="card">
-    <img src="planos.jpg" alt="Supervisión">
+    <img src="./planos.jpg">
     <h3>Supervisión</h3>
     <button onclick="pedido('Supervisión')">Solicitar</button>
   </div>
+
 </section>
 
-<!-- FORMULARIO -->
 <div id="formPedido">
   <h2 id="titulo"></h2>
+
   <input id="cantidad" placeholder="Cantidad">
   <input id="nom" placeholder="Nombre completo">
   <input id="cor" placeholder="Correo">
@@ -192,72 +192,58 @@ button{
   <input id="ced" placeholder="Cédula">
   <input id="emp" placeholder="Empresa / Proyecto">
   <textarea id="det" placeholder="Detalles"></textarea>
+
   <br>
+
   <button onclick="enviar()">Enviar</button>
   <button onclick="cerrar()">Cerrar</button>
+
   <p id="pedidoMsg"></p>
 </div>
 
 <script>
-// Mostrar sección
+
 function mostrar(id){
   document.querySelectorAll("section").forEach(s => s.classList.remove("activo"));
   document.getElementById(id).classList.add("activo");
 }
 
-// Entrar
 function entrar(){
-  const nombreInput = document.getElementById("nombre");
-  const correoInput = document.getElementById("correo");
+  const nombre = document.getElementById("nombre");
+  const correo = document.getElementById("correo");
   const msg = document.getElementById("msg");
 
-  if(nombreInput.value.trim() === "" || correoInput.value.trim() === ""){
-    msg.innerText = "Faltan datos";
+  if(nombre.value.trim()==="" || correo.value.trim()===""){
+    msg.innerText="Faltan datos";
     return;
   }
-  msg.innerText = "";
+
+  msg.innerText="";
   mostrar("inicio");
 }
 
-// Pedido
-function pedido(producto){
-  document.getElementById("titulo").innerText = "Pedido: " + producto;
-  document.getElementById("formPedido").style.display = "block";
+function pedido(p){
+  document.getElementById("titulo").innerText="Pedido: "+p;
+  document.getElementById("formPedido").style.display="block";
 }
 
-// Cerrar formulario
 function cerrar(){
-  document.getElementById("formPedido").style.display = "none";
-  document.getElementById("pedidoMsg").innerText = "";
+  document.getElementById("formPedido").style.display="none";
+  document.getElementById("pedidoMsg").innerText="";
 }
 
-// Enviar pedido
 function enviar(){
-  const cantidad = document.getElementById("cantidad");
-  const nom = document.getElementById("nom");
-  const cor = document.getElementById("cor");
-  const tel = document.getElementById("tel");
-  const dir = document.getElementById("dir");
-  const ced = document.getElementById("ced");
-  const emp = document.getElementById("emp");
-  const det = document.getElementById("det");
+  const campos = ["cantidad","nom","cor","tel","dir","ced","emp","det"];
   const pedidoMsg = document.getElementById("pedidoMsg");
 
-  if(
-    cantidad.value.trim() === "" ||
-    nom.value.trim() === "" ||
-    cor.value.trim() === "" ||
-    tel.value.trim() === "" ||
-    dir.value.trim() === "" ||
-    ced.value.trim() === "" ||
-    emp.value.trim() === "" ||
-    det.value.trim() === ""
-  ){
-    pedidoMsg.innerText = "ERROR: completa todos los campos";
-    return;
+  for(let c of campos){
+    if(document.getElementById(c).value.trim()===""){
+      pedidoMsg.innerText="ERROR: completa todos los campos";
+      return;
+    }
   }
 
-  pedidoMsg.innerText = "Solicitud enviada correctamente";
+  pedidoMsg.innerText="Solicitud enviada correctamente";
 }
 
 </script>
